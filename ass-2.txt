@@ -1,0 +1,74 @@
+create database db;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use db;
+Database changed
+mysql> CREATE TABLE ITEM (
+    ->     I_no INT PRIMARY KEY CHECK (I_no BETWEEN 1 AND 1000),
+    ->     I_name VARCHAR(20) NOT NULL CHECK (UPPER(I_name) = I_name),
+    ->     I_price DECIMAL(5,2) CHECK (I_price BETWEEN 1.00 AND 25.95),
+    ->     I_qty INT CHECK (I_qty >= 1)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> select*from ITEM;
+Empty set (1.58 sec)
+
+mysql> desc ITEM;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| I_no    | int          | NO   | PRI | NULL    |       |
+| I_name  | varchar(20)  | NO   |     | NULL    |       |
+| I_price | decimal(5,2) | YES  |     | NULL    |       |
+| I_qty   | int          | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+4 rows in set (2.19 sec)
+
+mysql> create table CUSTOMER(Cust_no integer primary key unique,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(2)Default 'WB' check(S
+tate in('WB','UP','AP')));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc CUSTOMER;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Cust_no   | int         | NO   | PRI | NULL    |       |
+| Cust_name | varchar(20) | YES  |     | NULL    |       |
+| State     | varchar(2)  | YES  |     | WB      |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(1,'Sword',2.25,50)
+    -> insert;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'insert' at line 2
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(1,'Sword',2.25,50);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(2,'Nut',5.00,110);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(3,'Bolt',3.99,75);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(4,'Hammer',9.99,125);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(4,'Hammer',9.99,125);
+ERROR 1062 (23000): Duplicate entry '4' for key 'item.PRIMARY'
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(5,'Washer',1.99,100);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(6,'Nail',0.99,300);
+ERROR 3819 (HY000): Check constraint 'item_chk_3' is violated.
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(6,'Nail',0.99,300);
+ERROR 3819 (HY000): Check constraint 'item_chk_3' is violated.
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(6,'Nail',1.00,300);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(7,'Axe',3.55,25);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(8,'Scissor',2.19,15);
+Query OK, 1 row affected (0.00 sec)

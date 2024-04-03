@@ -1,0 +1,340 @@
+select e.ENAME,e.JOB,e.DEPTNO,d.DNAME from employee e join department d on e.DEPTNO=d.DEPTNO where d.LOC='DALLAS';
++-------+---------+--------+----------+
+| ENAME | JOB     | DEPTNO | DNAME    |
++-------+---------+--------+----------+
+| Smith | Clerk   |     20 | RESEARCH |
+| Jones | Manager |     20 | RESEARCH |
+| Wong  | Analyst |     20 | RESEARCH |
+| Adam  | Clerk   |     20 | RESEARCH |
+| Ford  | Analyst |     20 | RESEARCH |
++-------+---------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| EMPNO    | int         | NO   | PRI | NULL    |       |
+| ENAME    | varchar(10) | YES  |     | NULL    |       |
+| JOB      | varchar(9)  | YES  |     | NULL    |       |
+| MGR      | int         | YES  |     | NULL    |       |
+| HIREDATE | date        | YES  |     | NULL    |       |
+| SAL      | int         | YES  |     | NULL    |       |
+| COMM     | int         | YES  |     | NULL    |       |
+| DEPTNO   | int         | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> desc department;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| DEPTNO | int         | NO   | PRI | NULL    |       |
+| DNAME  | varchar(14) | NO   |     | NULL    |       |
+| LOC    | varchar(13) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select e.ENAME,e.EMPNO,m.ENAME as manager_name,e.MGR as manager_no from employee e where e.MGR=e.EMPNO;
+ERROR 1054 (42S22): Unknown column 'm.ENAME' in 'field list'
+mysql> select e.ENAME,e.EMPNO,e.ENAME as manager_name,e.MGR as manager_no from employee e where e.MGR=e.EMPNO;
+Empty set (0.00 sec)
+
+mysql> select e.EMPNO,e.ENAME,e1.EMPNO as manager no,e1.ENAME as manager name from employee e join employee e1 on e.MGR=e1.EMPNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'no,e1.ENAME as manager name from employee e join employee e1 on e.MGR=e1.EMPNO' at line 1
+mysql> select e.ENAME,e.EMPNO,m.ENAME as manager name,e.MGR as manager no from employee e left join employee m on e.MGR=m.EMPNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'name,e.MGR as manager no from employee e left join employee m on e.MGR=m.EMPNO' at line 1
+mysql> SELECT e.ENAME, e.ENO, m.ENAME AS MANAGER_NAME, e.MGR AS MANAGER_NO
+    -> FROM EMPLOYEE e
+    -> LEFT JOIN EMPLOYEE m ON e.MGR = m.ENO;
+ERROR 1054 (42S22): Unknown column 'e.ENO' in 'field list'
+mysql> SELECT e.ENAME, e.EMPNO, m.ENAME AS MANAGER_NAME, e.MGR AS MANAGER_NO
+    -> FROM EMPLOYEE e
+    -> LEFT JOIN EMPLOYEE m ON e.MGR = m.EMPNO;
++-------+-------+--------------+------------+
+| ENAME | EMPNO | MANAGER_NAME | MANAGER_NO |
++-------+-------+--------------+------------+
+| Smith |  7369 | NULL         |       7920 |
+| Allen |  7499 | Blake        |       7698 |
+| Ward  |  7521 | Blake        |       7698 |
+| Jones |  7566 | King         |       7839 |
+| Marti |  7654 | Blake        |       7698 |
+| Blake |  7698 | King         |       7839 |
+| Clark |  7782 | King         |       7839 |
+| Wong  |  7788 | Jones        |       7566 |
+| King  |  7839 | NULL         |       NULL |
+| Adam  |  7876 | Wong         |       7788 |
+| James |  7900 | NULL         |       7689 |
+| Ford  |  7902 | Jones        |       7566 |
+| Mile  |  7934 | Clark        |       7782 |
++-------+-------+--------------+------------+
+13 rows in set (0.00 sec)
+
+mysql> update table employee set MGR =7902 where ENAME='Smith';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table employee set MGR =7902 where ENAME='Smith'' at line 1
+mysql> update employee set MGR='Jones' where ENAME='King';
+ERROR 1366 (HY000): Incorrect integer value: 'Jones' for column 'MGR' at row 9
+mysql> update employee set MGR=7788 where ENAME='King';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from employee;
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+-------+-----------+------+------------+------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select ENAME from employee department d department d1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'd department d1' at line 1
+mysql> select ENAME from employee join department d on employee.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO;
++-------+
+| ENAME |
++-------+
+| Smith |
+| Smith |
+| Smith |
+| Smith |
+| Allen |
+| Allen |
+| Allen |
+| Allen |
+| Ward  |
+| Ward  |
+| Ward  |
+| Ward  |
+| Jones |
+| Jones |
+| Jones |
+| Jones |
+| Marti |
+| Marti |
+| Marti |
+| Marti |
+| Blake |
+| Blake |
+| Blake |
+| Blake |
+| Clark |
+| Clark |
+| Clark |
+| Clark |
+| Wong  |
+| Wong  |
+| Wong  |
+| Wong  |
+| King  |
+| King  |
+| King  |
+| King  |
+| Adam  |
+| Adam  |
+| Adam  |
+| Adam  |
+| James |
+| James |
+| James |
+| James |
+| Ford  |
+| Ford  |
+| Ford  |
+| Ford  |
+| Mile  |
+| Mile  |
+| Mile  |
+| Mile  |
++-------+
+52 rows in set (0.01 sec)
+
+mysql> select ENAME from employee join department d on employee.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO where d.DEPTNO=d1.DEPTNO;
++-------+
+| ENAME |
++-------+
+| Smith |
+| Smith |
+| Smith |
+| Smith |
+| Allen |
+| Allen |
+| Allen |
+| Allen |
+| Ward  |
+| Ward  |
+| Ward  |
+| Ward  |
+| Jones |
+| Jones |
+| Jones |
+| Jones |
+| Marti |
+| Marti |
+| Marti |
+| Marti |
+| Blake |
+| Blake |
+| Blake |
+| Blake |
+| Clark |
+| Clark |
+| Clark |
+| Clark |
+| Wong  |
+| Wong  |
+| Wong  |
+| Wong  |
+| King  |
+| King  |
+| King  |
+| King  |
+| Adam  |
+| Adam  |
+| Adam  |
+| Adam  |
+| James |
+| James |
+| James |
+| James |
+| Ford  |
+| Ford  |
+| Ford  |
+| Ford  |
+| Mile  |
+| Mile  |
+| Mile  |
+| Mile  |
++-------+
+52 rows in set (0.00 sec)
+
+mysql> select ENAME from employee join department d on employee.DEPTNO d.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO where d.DEPTNO=d1.DEPTNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'd.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO where d.DEPTNO=d1.DEPTNO' at line 1
+mysql> select ENAME from employee join department d on employee.DEPTNO=d.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO where d.DEPTNO=d1.DEPTNO;
++-------+
+| ENAME |
++-------+
+| Clark |
+| King  |
+| Mile  |
+| Smith |
+| Jones |
+| Wong  |
+| Adam  |
+| Ford  |
+| Allen |
+| Ward  |
+| Marti |
+| Blake |
+| James |
++-------+
+13 rows in set (0.00 sec)
+
+mysql> select ENAME from employee join department d on employee.DEPTNO=d.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO where d.DNAME='Sales';
++-------+
+| ENAME |
++-------+
+| Allen |
+| Ward  |
+| Marti |
+| Blake |
+| James |
++-------+
+5 rows in set (0.00 sec)
+
+mysql> select ENAME from employee join department d on employee.DEPTNO=d.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO where d.DNAME='Research';
++-------+
+| ENAME |
++-------+
+| Smith |
+| Jones |
+| Wong  |
+| Adam  |
+| Ford  |
++-------+
+5 rows in set (0.00 sec)
+
+mysql> select ENAME,JOB,DNAME,SAL,d.DEPNO from employee join department d on employee.DEPTNO=d.DEPTNO;
+ERROR 1054 (42S22): Unknown column 'd.DEPNO' in 'field list'
+mysql> select ENAME,JOB,DNAME,SAL,d.DEPTNO from employee join department d on employee.DEPTNO=d.DEPTNO;
++-------+-----------+----------+------+--------+
+| ENAME | JOB       | DNAME    | SAL  | DEPTNO |
++-------+-----------+----------+------+--------+
+| Clark | Manager   | HRD      | 2450 |     10 |
+| King  | President | HRD      | 5000 |     10 |
+| Mile  | Clerk     | HRD      | 1300 |     10 |
+| Smith | Clerk     | RESEARCH | 1000 |     20 |
+| Jones | Manager   | RESEARCH | 2975 |     20 |
+| Wong  | Analyst   | RESEARCH | 3000 |     20 |
+| Adam  | Clerk     | RESEARCH | 1100 |     20 |
+| Ford  | Analyst   | RESEARCH | 3000 |     20 |
+| Allen | Salesman  | SALES    | 1600 |     30 |
+| Ward  | Salesman  | SALES    | 1250 |     30 |
+| Marti | Salesman  | SALES    | 1250 |     30 |
+| Blake | Manager   | SALES    | 2850 |     30 |
+| James | Clerk     | SALES    |  950 |     30 |
++-------+-----------+----------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select ENAME,HIREDATE from employee where HIREDATE>'1989/05/01';
++-------+------------+
+| ENAME | HIREDATE   |
++-------+------------+
+| Marti | 1989-09-28 |
+| Clark | 1989-06-09 |
+| King  | 1989-11-17 |
+| James | 1989-12-03 |
+| Ford  | 1989-12-03 |
++-------+------------+
+5 rows in set, 1 warning (0.01 sec)
+
+mysql> SELECT e.ENAME, e.EMPNO, m.ENAME AS MANAGER_NAME, e.MGR AS MANAGER_NO
+    ->     -> FROM EMPLOYEE e
+    ->     -> LEFT JOIN EMPLOYEE m ON e.MGR = m.EMPNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> FROM EMPLOYEE e
+    -> LEFT JOIN EMPLOYEE m ON e.MGR = m.EMPNO' at line 2
+mysql> SELECT e.ENAME, e.EMPNO, m.ENAME AS MANAGER_NAME, e.MGR AS MANAGER_NO
+    ->     -> FROM EMPLOYEE e
+    ->     -> LEFT JOIN EMPLOYEE m ON e.MGR = m.E;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> FROM EMPLOYEE e
+    -> LEFT JOIN EMPLOYEE m ON e.MGR = m.E' at line 2
+mysql> select ENAME,HIREDATE
+    -> from employee e
+    -> join employee;
+ERROR 1052 (23000): Column 'ENAME' in field list is ambiguous
+mysql> select distinct sal
+    -> from employee e1
+    -> where 2=(select count(distinct SAL)from employee e2 where e1.SAL=e2.SAL);
+Empty set (0.02 sec)
+
+mysql> where 2=(select count(distinct SAL)from employee e2 where e1.SAL<=e2.SAL);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where 2=(select count(distinct SAL)from employee e2 where e1.SAL<=e2.SAL)' at line 1
+mysql> select distinct SAL
+    -> from employee e1
+    -> where 2=(select count(distinct sal)from employee e2 where e1.SAL<=e2.SAL);
++------+
+| SAL  |
++------+
+| 3000 |
++------+
+1 row in set (0.01 sec)
+
+mysql> select distinct SAL
+    -> from employee e1
+    -> where 5=(select count(distinct SAL)from employee e2 where e1.SAL<=e2.SAL);
++------+
+| SAL  |
++------+
+| 2450 |
++------+
+

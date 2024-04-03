@@ -1,0 +1,161 @@
+mysql> select*from ITEM;
++------+---------+---------+-------+
+| I_no | I_name  | I_price | I_qty |
++------+---------+---------+-------+
+|    1 | Sword   |    2.25 |    50 |
+|    2 | Nut     |    5.00 |   110 |
+|    3 | Bolt    |    3.99 |    75 |
+|    4 | Hammer  |    9.99 |   125 |
+|    5 | Washer  |    1.99 |   100 |
+|    6 | Nail    |    1.00 |   300 |
+|    7 | Axe     |    3.55 |    25 |
+|    8 | Scissor |    2.19 |    15 |
++------+---------+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> insert into CUSTOMER(Cust_no,Cust_name,State)values(1001,'Prakash','UP');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into CUSTOMER(Cust_no,Cust_name,State)values(1002,'Mukesh','AP');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into CUSTOMER(Cust_no,Cust_name,State)values(1003,'Murti','UP');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into CUSTOMER(Cust_no,Cust_name,State)values(1004,'Rajan','WB');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from CUSTOMER;
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1001 | Prakash   | UP    |
+|    1002 | Mukesh    | AP    |
+|    1003 | Murti     | UP    |
+|    1004 | Rajan     | WB    |
++---------+-----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select*from customer where state='UP';
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1001 | Prakash   | UP    |
+|    1003 | Murti     | UP    |
++---------+-----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select*from CUSTOMER where Cust_name='Prakash';
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1001 | Prakash   | UP    |
++---------+-----------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from CUSTOMER where State='AP' or State='WB';
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1002 | Mukesh    | AP    |
+|    1004 | Rajan     | WB    |
++---------+-----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select*from CUSTOMER where State!='UP';
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1002 | Mukesh    | AP    |
+|    1004 | Rajan     | WB    |
++---------+-----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> Select*from ITEM where I_name='Nail';
++------+--------+---------+-------+
+| I_no | I_name | I_price | I_qty |
++------+--------+---------+-------+
+|    6 | Nail   |    1.00 |   300 |
++------+--------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> Select*from ITEM where I_price between 2 and 6;
++------+---------+---------+-------+
+| I_no | I_name  | I_price | I_qty |
++------+---------+---------+-------+
+|    1 | Sword   |    2.25 |    50 |
+|    2 | Nut     |    5.00 |   110 |
+|    3 | Bolt    |    3.99 |    75 |
+|    7 | Axe     |    3.55 |    25 |
+|    8 | Scissor |    2.19 |    15 |
++------+---------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> Select*from ITEM where I_price not between 2 and 6;
++------+--------+---------+-------+
+| I_no | I_name | I_price | I_qty |
++------+--------+---------+-------+
+|    4 | Hammer |    9.99 |   125 |
+|    5 | Washer |    1.99 |   100 |
+|    6 | Nail   |    1.00 |   300 |
++------+--------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> Select*from ITEM where I_price>1.00 and I_qty<200;
++------+---------+---------+-------+
+| I_no | I_name  | I_price | I_qty |
++------+---------+---------+-------+
+|    1 | Sword   |    2.25 |    50 |
+|    2 | Nut     |    5.00 |   110 |
+|    3 | Bolt    |    3.99 |    75 |
+|    4 | Hammer  |    9.99 |   125 |
+|    5 | Washer  |    1.99 |   100 |
+|    7 | Axe     |    3.55 |    25 |
+|    8 | Scissor |    2.19 |    15 |
++------+---------+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> Select * from ITEMS where I_name like='%o%'t;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='%o%'t' at line 1
+mysql> Select * from ITEMS where I_name like='%o%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='%o%'' at line 1
+mysql> Select * from ITEMS where I_name like'%o%';
+ERROR 1146 (42S02): Table 'db.items' doesn't exist
+mysql> Select * from ITEM where I_name like'%o%';
++------+---------+---------+-------+
+| I_no | I_name  | I_price | I_qty |
++------+---------+---------+-------+
+|    1 | Sword   |    2.25 |    50 |
+|    3 | Bolt    |    3.99 |    75 |
+|    8 | Scissor |    2.19 |    15 |
++------+---------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> Select * from ITEM where I_name like'A%';
++------+--------+---------+-------+
+| I_no | I_name | I_price | I_qty |
++------+--------+---------+-------+
+|    7 | Axe    |    3.55 |    25 |
++------+--------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> Select * from ITEM where I_name like'%r';
++------+---------+---------+-------+
+| I_no | I_name  | I_price | I_qty |
++------+---------+---------+-------+
+|    4 | Hammer  |    9.99 |   125 |
+|    5 | Washer  |    1.99 |   100 |
+|    8 | Scissor |    2.19 |    15 |
++------+---------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> Select * from CUSTOMER order by State desc;
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1004 | Rajan     | WB    |
+|    1001 | Prakash   | UP    |
+|    1003 | Murti     | UP    |
+|    1002 | Mukesh    | AP    |
++---------+-----------+-------+
+4 rows in set (0.00 sec)

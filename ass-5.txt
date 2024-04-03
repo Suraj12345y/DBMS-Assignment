@@ -1,0 +1,261 @@
+create table EMPLOYEE(EMPNO int primary key,ENAME varchar(10),JOB varchar(9),MGR int,HIREDATE date,SAL int,COMM int,DEPTNO int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc EMPLOYEE;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| EMPNO    | int         | NO   | PRI | NULL    |       |
+| ENAME    | varchar(10) | YES  |     | NULL    |       |
+| JOB      | varchar(9)  | YES  |     | NULL    |       |
+| MGR      | int         | YES  |     | NULL    |       |
+| HIREDATE | date        | YES  |     | NULL    |       |
+| SAL      | int         | YES  |     | NULL    |       |
+| COMM     | int         | YES  |     | NULL    |       |
+| DEPTNO   | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+ create table DEPARTMENT(DEPTNO int primary key,DNAME varchar(14)not null,LOC varchar(13)not null);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> alter table EMPLOYEE add constraint FK_EMPLOYEE_DEPARTMENT foreign key(DEPTNO) references DEPARTMENT(DEPTNO);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc EMPLOYEE;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| EMPNO    | int         | NO   | PRI | NULL    |       |
+| ENAME    | varchar(10) | YES  |     | NULL    |       |
+| JOB      | varchar(9)  | YES  |     | NULL    |       |
+| MGR      | int         | YES  |     | NULL    |       |
+| HIREDATE | date        | YES  |     | NULL    |       |
+| SAL      | int         | YES  |     | NULL    |       |
+| COMM     | int         | YES  |     | NULL    |       |
+| DEPTNO   | int         | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> desc DEPARTMENT;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| DEPTNO | int         | NO   | PRI | NULL    |       |
+| DNAME  | varchar(14) | NO   |     | NULL    |       |
+| LOC    | varchar(13) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+ insert into department
+    -> values
+    -> (10,'HRD','Houston'),(20,'RESEARCH','Dallas'),(30,'SALES','Chicago'),(40,'OPERATION','Boston');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select*from department;
++--------+-----------+---------+
+| DEPTNO | DNAME     | LOC     |
++--------+-----------+---------+
+|     10 | HRD       | Houston |
+|     20 | RESEARCH  | Dallas  |
+|     30 | SALES     | Chicago |
+|     40 | OPERATION | Boston  |
++--------+-----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7369,'Smith','Clerk',7920,'1988/12/17',1000,null,20);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+ insert into employee
+    ->     -> values
+    ->     -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> values
+    -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30)' at line 2
+mysql> insert into employee
+    -> values
+    -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee
+    ->     -> values
+    ->     -> values;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> values
+    -> values' at line 2
+mysql>  insert into employee
+    -> values
+    -> (7566,'Jones','Manager',7839,'1989/03/02',2975,null,20);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+ insert into employee
+    ->  values
+    -> (7654,'Marti','Salesman',7698,'1989/09/28',1250,1400,30);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql>  insert into employee
+    ->  values
+    -> (7698,'Blake','Manager',7839,'1989/05/01',2850,null,30);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> ^C
+mysql> insert into employee
+    ->  values
+    -> (7788,'Wong','Analyst',7566,'1987/04/19',3000,null,20);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select ENAME,department.DEPTNO,DNAME from department,employee where department.DEPTNO=employee.DEPTNO;
++-------+--------+----------+
+| ENAME | DEPTNO | DNAME    |
++-------+--------+----------+
+| Clark |     10 | HRD      |
+| Smith |     20 | RESEARCH |
+| Jones |     20 | RESEARCH |
+| Wong  |     20 | RESEARCH |
+| Ward  |     30 | SALES    |
+| Marti |     30 | SALES    |
+| Blake |     30 | SALES    |
++-------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select job,location from department,employee where department.DEPTNO=30;
+ERROR 1054 (42S22): Unknown column 'location' in 'field list'
+mysql> select job,LOC from department,employee where department.DEPTNO=30;
++----------+---------+
+| job      | LOC     |
++----------+---------+
+| Clerk    | Chicago |
+| Salesman | Chicago |
+| Manager  | Chicago |
+| Salesman | Chicago |
+| Manager  | Chicago |
+| Manager  | Chicago |
+| Analyst  | Chicago |
++----------+---------+
+7 rows in set (0.00 sec)
+
+mysql> select job,LOC from department,employee where department.DEPTNO=30 and department.DEPTNO=employee.DEPTNO;
++----------+---------+
+| job      | LOC     |
++----------+---------+
+| Salesman | Chicago |
+| Salesman | Chicago |
+| Manager  | Chicago |
++----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select employee.ENAME,department,department.LOC from employee e join department d on e.DEPTNO=d.DEPTNO where e.COMM is not null;
+ERROR 1054 (42S22): Unknown column 'employee.ENAME' in 'field list'
+mysql> select employee.ENAME,department.DNAME,department.LOC from employee e join department d on e.DEPTNO=d.DEPTNO where e.COMM is not null;
+ERROR 1054 (42S22): Unknown column 'employee.ENAME' in 'field list'
+mysql> select e.ENAME,d.DNAME,d.LOC
+    -> from employee e
+    -> join
+    -> department d on e.DEPTNO=D.DEPTNO
+    -> where e.COMM is not null;
++-------+-------+---------+
+| ENAME | DNAME | LOC     |
++-------+-------+---------+
+| Ward  | SALES | Chicago |
+| Marti | SALES | Chicago |
++-------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select*from EMPLOYEE;
++-------+-------+----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+----------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk    | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7521 | Ward  | Salesman | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones | Manager  | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti | Salesman | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake | Manager  | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark | Manager  | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong  | Analyst  | 7566 | 1987-04-19 | 3000 | NULL |     20 |
++-------+-------+----------+------+------------+------+------+--------+
+7 rows in set (0.00 sec)
+
+mysql> select e.ENAME,d.DNAME
+    -> from employee e
+    -> join
+    -> department d on e.DEPTNO=D.DEPTNO
+    -> where e.Ename like %A%;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%A%' at line 5
+mysql>  select e.ENAME,d.DNAME
+    ->from employee e
+    ->join
+    ->department d on e.DEPTNO=D.DEPTNO
+    -> join;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from employee e
+    -> join
+    -> department d on e.DEPTNO=D.DEPTNO
+    -> join' at line 2
+mysql> select e.ENAME,d.DNAME
+    -> from employee e
+    -> join
+    -> department d on e.DEPTNO=D.DEPTNO
+    -> where e.Ename like'%A%';
++-------+-------+
+| ENAME | DNAME |
++-------+-------+
+| Ward  | SALES |
+| Marti | SALES |
+| Blake | SALES |
+| Clark | HRD   |
++-------+-------+
+4 rows in set (0.01 sec)
+insert into employee
+    -> values
+    -> (7499,'Allen','Salesman',7698,'1989/02/20',1600,300,30);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7788,'Wong','Analyst',7566,'1987/04/19',3000,null,20),
+    -> (7839,'King','President',null,'1989/11/17',5000,null,10);
+ERROR 1062 (23000): Duplicate entry '7788' for key 'employee.PRIMARY'
+mysql> insert into employee
+    -> values
+    -> (7839,'King','President',null,'1989/11/17',5000,null,10);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql>  insert into employee
+    -> values
+    -> (7876,'Adam','Clerk',7788,'1987/05/23',1100,null,20);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7900,'James','Clerk',7689,'1989/12/03',0950,null,30),
+    -> (7902,'Ford','Analyst',7566,'1989/12/03',3000,null,20);
+Query OK, 2 rows affected, 2 warnings (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 2
+
+mysql>  insert into employee
+    -> values
+    -> (7934,'Mile','Clerk',7782,'1986/01/23',1300,null,10);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select*from employee;
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King  | President | NULL | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+-------+-----------+------+------------+------+------+--------+
+13 rows in set (0.00 sec)
+

@@ -1,0 +1,1593 @@
+                           ------------------Assignment-02--------------------------------------- 
+create database db;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use db;
+Database changed
+mysql> CREATE TABLE ITEM (
+    ->     I_no INT PRIMARY KEY CHECK (I_no BETWEEN 1 AND 1000),
+    ->     I_name VARCHAR(20) NOT NULL CHECK (UPPER(I_name) = I_name),
+    ->     I_price DECIMAL(5,2) CHECK (I_price BETWEEN 1.00 AND 25.95),
+    ->     I_qty INT CHECK (I_qty >= 1)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> select*from ITEM;
+Empty set (1.58 sec)
+
+mysql> desc ITEM;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| I_no    | int          | NO   | PRI | NULL    |       |
+| I_name  | varchar(20)  | NO   |     | NULL    |       |
+| I_price | decimal(5,2) | YES  |     | NULL    |       |
+| I_qty   | int          | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+4 rows in set (2.19 sec)
+
+mysql> create table CUSTOMER(Cust_no integer primary key unique,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(2)Default 'WB' check(S
+tate in('WB','UP','AP')));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc CUSTOMER;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Cust_no   | int         | NO   | PRI | NULL    |       |
+| Cust_name | varchar(20) | YES  |     | NULL    |       |
+| State     | varchar(2)  | YES  |     | WB      |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(1,'Sword',2.25,50)
+    -> insert;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'insert' at line 2
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(1,'Sword',2.25,50);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(2,'Nut',5.00,110);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(3,'Bolt',3.99,75);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(4,'Hammer',9.99,125);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(4,'Hammer',9.99,125);
+ERROR 1062 (23000): Duplicate entry '4' for key 'item.PRIMARY'
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(5,'Washer',1.99,100);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(6,'Nail',0.99,300);
+ERROR 3819 (HY000): Check constraint 'item_chk_3' is violated.
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(6,'Nail',0.99,300);
+ERROR 3819 (HY000): Check constraint 'item_chk_3' is violated.
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(6,'Nail',1.00,300);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(7,'Axe',3.55,25);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql> insert into ITEM(I_no,I_name,I_price,I_qty)values(8,'Scissor',2.19,15);
+Query OK, 1 row affected (0.00 sec)
+----------------------------------------------Assignment-03-----------------------------------------------------------------------------------------------------------------------------
+
+mysql> select*from ITEM;
++------+---------+---------+-------+
+| I_no | I_name  | I_price | I_qty |
++------+---------+---------+-------+
+|    1 | Sword   |    2.25 |    50 |
+|    2 | Nut     |    5.00 |   110 |
+|    3 | Bolt    |    3.99 |    75 |
+|    4 | Hammer  |    9.99 |   125 |
+|    5 | Washer  |    1.99 |   100 |
+|    6 | Nail    |    1.00 |   300 |
+|    7 | Axe     |    3.55 |    25 |
+|    8 | Scissor |    2.19 |    15 |
++------+---------+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> insert into CUSTOMER(Cust_no,Cust_name,State)values(1001,'Prakash','UP');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into CUSTOMER(Cust_no,Cust_name,State)values(1002,'Mukesh','AP');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into CUSTOMER(Cust_no,Cust_name,State)values(1003,'Murti','UP');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into CUSTOMER(Cust_no,Cust_name,State)values(1004,'Rajan','WB');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select*from CUSTOMER;
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1001 | Prakash   | UP    |
+|    1002 | Mukesh    | AP    |
+|    1003 | Murti     | UP    |
+|    1004 | Rajan     | WB    |
++---------+-----------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select*from customer where state='UP';
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1001 | Prakash   | UP    |
+|    1003 | Murti     | UP    |
++---------+-----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select*from CUSTOMER where Cust_name='Prakash';
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1001 | Prakash   | UP    |
++---------+-----------+-------+
+1 row in set (0.00 sec)
+
+mysql> select * from CUSTOMER where State='AP' or State='WB';
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1002 | Mukesh    | AP    |
+|    1004 | Rajan     | WB    |
++---------+-----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select*from CUSTOMER where State!='UP';
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1002 | Mukesh    | AP    |
+|    1004 | Rajan     | WB    |
++---------+-----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> Select*from ITEM where I_name='Nail';
++------+--------+---------+-------+
+| I_no | I_name | I_price | I_qty |
++------+--------+---------+-------+
+|    6 | Nail   |    1.00 |   300 |
++------+--------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> Select*from ITEM where I_price between 2 and 6;
++------+---------+---------+-------+
+| I_no | I_name  | I_price | I_qty |
++------+---------+---------+-------+
+|    1 | Sword   |    2.25 |    50 |
+|    2 | Nut     |    5.00 |   110 |
+|    3 | Bolt    |    3.99 |    75 |
+|    7 | Axe     |    3.55 |    25 |
+|    8 | Scissor |    2.19 |    15 |
++------+---------+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> Select*from ITEM where I_price not between 2 and 6;
++------+--------+---------+-------+
+| I_no | I_name | I_price | I_qty |
++------+--------+---------+-------+
+|    4 | Hammer |    9.99 |   125 |
+|    5 | Washer |    1.99 |   100 |
+|    6 | Nail   |    1.00 |   300 |
++------+--------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> Select*from ITEM where I_price>1.00 and I_qty<200;
++------+---------+---------+-------+
+| I_no | I_name  | I_price | I_qty |
++------+---------+---------+-------+
+|    1 | Sword   |    2.25 |    50 |
+|    2 | Nut     |    5.00 |   110 |
+|    3 | Bolt    |    3.99 |    75 |
+|    4 | Hammer  |    9.99 |   125 |
+|    5 | Washer  |    1.99 |   100 |
+|    7 | Axe     |    3.55 |    25 |
+|    8 | Scissor |    2.19 |    15 |
++------+---------+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> Select * from ITEMS where I_name like='%o%'t;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='%o%'t' at line 1
+mysql> Select * from ITEMS where I_name like='%o%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='%o%'' at line 1
+mysql> Select * from ITEMS where I_name like'%o%';
+ERROR 1146 (42S02): Table 'db.items' doesn't exist
+mysql> Select * from ITEM where I_name like'%o%';
++------+---------+---------+-------+
+| I_no | I_name  | I_price | I_qty |
++------+---------+---------+-------+
+|    1 | Sword   |    2.25 |    50 |
+|    3 | Bolt    |    3.99 |    75 |
+|    8 | Scissor |    2.19 |    15 |
++------+---------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> Select * from ITEM where I_name like'A%';
++------+--------+---------+-------+
+| I_no | I_name | I_price | I_qty |
++------+--------+---------+-------+
+|    7 | Axe    |    3.55 |    25 |
++------+--------+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> Select * from ITEM where I_name like'%r';
++------+---------+---------+-------+
+| I_no | I_name  | I_price | I_qty |
++------+---------+---------+-------+
+|    4 | Hammer  |    9.99 |   125 |
+|    5 | Washer  |    1.99 |   100 |
+|    8 | Scissor |    2.19 |    15 |
++------+---------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> Select * from CUSTOMER order by State desc;
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1004 | Rajan     | WB    |
+|    1001 | Prakash   | UP    |
+|    1003 | Murti     | UP    |
+|    1002 | Mukesh    | AP    |
++---------+-----------+-------+
+4 rows in set (0.00 sec)
+--------------------------------------------------------Assignment-04--------------------------------------------------------------------------------------------------------------------
+
+ use db;
+Database changed
+mysql> select*from ITEM;
++------+---------+---------+-------+
+| I_no | I_name  | I_price | I_qty |
++------+---------+---------+-------+
+|    1 | Sword   |    2.25 |    50 |
+|    2 | Nut     |    5.00 |   110 |
+|    3 | Bolt    |    3.99 |    75 |
+|    4 | Hammer  |    9.99 |   125 |
+|    5 | Washer  |    1.99 |   100 |
+|    6 | Nail    |    1.00 |   300 |
+|    7 | Axe     |    3.55 |    25 |
+|    8 | Scissor |    2.19 |    15 |
++------+---------+---------+-------+
+8 rows in set (0.02 sec)
+
+mysql> update ITEM set I_qty=75 where I_no=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update ITEM set I_price=6 where I_name=Nut;
+ERROR 1054 (42S22): Unknown column 'Nut' in 'where clause'
+mysql> update ITEM set I_price=6 where I_name='Nut';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update ITEM set I_price=I_price*1.10;
+Query OK, 8 rows affected, 6 warnings (0.00 sec)
+Rows matched: 8  Changed: 8  Warnings: 6
+
+mysql> Delete from ITEM where I_qty=500;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> Delete ITEM where I_price between 0.1 and 1.00;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where I_price between 0.1 and 1.00' at line 1
+mysql> Delete  from ITEM where I_price between 0.1 and 1.00;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> alter table CUSTOMER add Phone_no varchar(10);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table CUSTOMER rename column Phone_no to Ph_number;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> Alter table CUSTOMER drop column Ph_Number;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table CUSTOMER rename to CUSTOMER_SURAJ;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> alter table ITEM rename to ITEM_SURAJ;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select constraint_name,constraint_type from user_constraints where table_name='ITEM_SURAJ';
+ERROR 1146 (42S02): Table 'db.user_constraints' doesn't exist
+mysql> desc ITEM_SURAJ;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| I_no    | int          | NO   | PRI | NULL    |       |
+| I_name  | varchar(20)  | NO   |     | NULL    |       |
+| I_price | decimal(5,2) | YES  |     | NULL    |       |
+| I_qty   | int          | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> select constraint_name,constraint_type from ITEM_SURAJ where table_name='ITEM_SURAJ';
+ERROR 1054 (42S22): Unknown column 'constraint_name' in 'field list'
+mysql> select I_no,I_name,I_price,I_qty ,constraint_type from ITEM_SURAJ where table_name='ITEM_SURAJ';
+ERROR 1054 (42S22): Unknown column 'constraint_type' in 'field list'
+mysql> select I_no,I_name,I_price,I_qty ,int ,varchar(20),decimal(5,2),int from ITEM_SURAJ where table_name='ITEM_SURAJ';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int ,varchar(20),decimal(5,2),int from ITEM_SURAJ where table_name='ITEM_SURAJ'' at line 1
+mysql> select I_no,I_name,I_price,I_qty ,int ,varchar(20),decimal(5,2),int,from ITEM_SURAJ where table_name='ITEM_SURAJ';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int ,varchar(20),decimal(5,2),int,from ITEM_SURAJ where table_name='ITEM_SURAJ'' at line 1
+mysql> select I_no I_name I_price I_qty int varchar(20) decimal(5,2) int from ITEM_SURAJ where table_name='ITEM_SURAJ';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'I_price I_qty int varchar(20) decimal(5,2) int from ITEM_SURAJ where table_name=' at line 1
+mysql> select I_no I_name I_price I_qty int varchar(20) decimal(5,2) int from ITEM_SURAJ where table_name=ITEM_SURAJ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'I_price I_qty int varchar(20) decimal(5,2) int from ITEM_SURAJ where table_name=' at line 1
+mysql> select*from CUSTOMER_SURAJ;
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1001 | Prakash   | UP    |
+|    1002 | Mukesh    | AP    |
+|    1003 | Murti     | UP    |
+|    1004 | Rajan     | WB    |
++---------+-----------+-------+
+4 rows in set (0.01 sec)
+
+mysql>  alter table CUSTOMER add Phone_no varchar(10);
+ERROR 1146 (42S02): Table 'db.customer' doesn't exist
+mysql>  alter table CUSTOMER_SURAJ add Phone_no varchar(10);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>  alter table CUSTOMER_SURAJ rename column Phone_no to Ph_number;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select*from CUSTOMER_SURAJ;
++---------+-----------+-------+-----------+
+| Cust_no | Cust_name | State | Ph_number |
++---------+-----------+-------+-----------+
+|    1001 | Prakash   | UP    | NULL      |
+|    1002 | Mukesh    | AP    | NULL      |
+|    1003 | Murti     | UP    | NULL      |
+|    1004 | Rajan     | WB    | NULL      |
++---------+-----------+-------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> desc ITEM_SURAJ;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| I_no    | int          | NO   | PRI | NULL    |       |
+| I_name  | varchar(20)  | NO   |     | NULL    |       |
+| I_price | decimal(5,2) | YES  |     | NULL    |       |
+| I_qty   | int          | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> truncate table CUSTOMER_SURAJ;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select*from CUSTOMER_SURAJ;
+Empty set (0.00 sec)
+
+mysql> create table CUSTOMER(Cust_no integer primary key unique,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(2)Default 'WB' check(S
+
+    -> jb;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'jb' at line 2
+mysql> create table CUSTOMER(Cust_no integer primary key unique,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(2)Default 'WB' check(S
+
+    -> jhh;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'jhh' at line 2
+mysql> create table CUSTOMER2(Cust_no integer primary key unique,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(2)Default 'WB' check(
+State ='WB' or 'AP' or 'UP')));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> create table CUSTOMER2(Cust_no integer primary key unique,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(20)Default 'WB' check
+(State ='WB' or 'AP' or 'UP')));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> create table CUSTOMER2(Cust_no integer primary key unique,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(20) check(State ='WB'
+ or 'AP' or 'UP')));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> create table CUSTOMER2(Cust_no integer primary key,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(20) check(State ='WB' or state='AP' or state='UP'));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc CUSTOMER2;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Cust_no   | int         | NO   | PRI | NULL    |       |
+| Cust_name | varchar(20) | YES  |     | NULL    |       |
+| State     | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> drop table CUSTOMER_SURAJ;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> drop table ITEM_SURAJ;
+Query OK, 0 rows affected (0.02 sec)
+-------------------------------------------------------------Assignment-05----------------------------------------------------------------------------------------------------------------
+
+ create table EMPLOYEE(EMPNO int primary key,ENAME varchar(10),JOB varchar(9),MGR int,HIREDATE date,SAL int,COMM int,DEPTNO int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc EMPLOYEE;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| EMPNO    | int         | NO   | PRI | NULL    |       |
+| ENAME    | varchar(10) | YES  |     | NULL    |       |
+| JOB      | varchar(9)  | YES  |     | NULL    |       |
+| MGR      | int         | YES  |     | NULL    |       |
+| HIREDATE | date        | YES  |     | NULL    |       |
+| SAL      | int         | YES  |     | NULL    |       |
+| COMM     | int         | YES  |     | NULL    |       |
+| DEPTNO   | int         | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+ create table DEPARTMENT(DEPTNO int primary key,DNAME varchar(14)not null,LOC varchar(13)not null);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> alter table EMPLOYEE add constraint FK_EMPLOYEE_DEPARTMENT foreign key(DEPTNO) references DEPARTMENT(DEPTNO);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc EMPLOYEE;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| EMPNO    | int         | NO   | PRI | NULL    |       |
+| ENAME    | varchar(10) | YES  |     | NULL    |       |
+| JOB      | varchar(9)  | YES  |     | NULL    |       |
+| MGR      | int         | YES  |     | NULL    |       |
+| HIREDATE | date        | YES  |     | NULL    |       |
+| SAL      | int         | YES  |     | NULL    |       |
+| COMM     | int         | YES  |     | NULL    |       |
+| DEPTNO   | int         | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> desc DEPARTMENT;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| DEPTNO | int         | NO   | PRI | NULL    |       |
+| DNAME  | varchar(14) | NO   |     | NULL    |       |
+| LOC    | varchar(13) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+ insert into department
+    -> values
+    -> (10,'HRD','Houston'),(20,'RESEARCH','Dallas'),(30,'SALES','Chicago'),(40,'OPERATION','Boston');
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select*from department;
++--------+-----------+---------+
+| DEPTNO | DNAME     | LOC     |
++--------+-----------+---------+
+|     10 | HRD       | Houston |
+|     20 | RESEARCH  | Dallas  |
+|     30 | SALES     | Chicago |
+|     40 | OPERATION | Boston  |
++--------+-----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7369,'Smith','Clerk',7920,'1988/12/17',1000,null,20);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+ insert into employee
+    ->     -> values
+    ->     -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> values
+    -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30)' at line 2
+mysql> insert into employee
+    -> values
+    -> (7521,'Ward','Salesman',7698,'1989/02/22',1250,500,30);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee
+    ->     -> values
+    ->     -> values;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> values
+    -> values' at line 2
+mysql>  insert into employee
+    -> values
+    -> (7566,'Jones','Manager',7839,'1989/03/02',2975,null,20);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+ insert into employee
+    ->  values
+    -> (7654,'Marti','Salesman',7698,'1989/09/28',1250,1400,30);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql>  insert into employee
+    ->  values
+    -> (7698,'Blake','Manager',7839,'1989/05/01',2850,null,30);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7782,'Clark','Manager',7839,'1989/06/09',2450,null,10);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> ^C
+mysql> insert into employee
+    ->  values
+    -> (7788,'Wong','Analyst',7566,'1987/04/19',3000,null,20);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select ENAME,department.DEPTNO,DNAME from department,employee where department.DEPTNO=employee.DEPTNO;
++-------+--------+----------+
+| ENAME | DEPTNO | DNAME    |
++-------+--------+----------+
+| Clark |     10 | HRD      |
+| Smith |     20 | RESEARCH |
+| Jones |     20 | RESEARCH |
+| Wong  |     20 | RESEARCH |
+| Ward  |     30 | SALES    |
+| Marti |     30 | SALES    |
+| Blake |     30 | SALES    |
++-------+--------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select job,location from department,employee where department.DEPTNO=30;
+ERROR 1054 (42S22): Unknown column 'location' in 'field list'
+mysql> select job,LOC from department,employee where department.DEPTNO=30;
++----------+---------+
+| job      | LOC     |
++----------+---------+
+| Clerk    | Chicago |
+| Salesman | Chicago |
+| Manager  | Chicago |
+| Salesman | Chicago |
+| Manager  | Chicago |
+| Manager  | Chicago |
+| Analyst  | Chicago |
++----------+---------+
+7 rows in set (0.00 sec)
+
+mysql> select job,LOC from department,employee where department.DEPTNO=30 and department.DEPTNO=employee.DEPTNO;
++----------+---------+
+| job      | LOC     |
++----------+---------+
+| Salesman | Chicago |
+| Salesman | Chicago |
+| Manager  | Chicago |
++----------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select employee.ENAME,department,department.LOC from employee e join department d on e.DEPTNO=d.DEPTNO where e.COMM is not null;
+ERROR 1054 (42S22): Unknown column 'employee.ENAME' in 'field list'
+mysql> select employee.ENAME,department.DNAME,department.LOC from employee e join department d on e.DEPTNO=d.DEPTNO where e.COMM is not null;
+ERROR 1054 (42S22): Unknown column 'employee.ENAME' in 'field list'
+mysql> select e.ENAME,d.DNAME,d.LOC
+    -> from employee e
+    -> join
+    -> department d on e.DEPTNO=D.DEPTNO
+    -> where e.COMM is not null;
++-------+-------+---------+
+| ENAME | DNAME | LOC     |
++-------+-------+---------+
+| Ward  | SALES | Chicago |
+| Marti | SALES | Chicago |
++-------+-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> select*from EMPLOYEE;
++-------+-------+----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+----------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk    | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7521 | Ward  | Salesman | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones | Manager  | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti | Salesman | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake | Manager  | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark | Manager  | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong  | Analyst  | 7566 | 1987-04-19 | 3000 | NULL |     20 |
++-------+-------+----------+------+------------+------+------+--------+
+7 rows in set (0.00 sec)
+
+mysql> select e.ENAME,d.DNAME
+    -> from employee e
+    -> join
+    -> department d on e.DEPTNO=D.DEPTNO
+    -> where e.Ename like %A%;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '%A%' at line 5
+mysql>  select e.ENAME,d.DNAME
+    ->from employee e
+    ->join
+    ->department d on e.DEPTNO=D.DEPTNO
+    -> join;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from employee e
+    -> join
+    -> department d on e.DEPTNO=D.DEPTNO
+    -> join' at line 2
+mysql> select e.ENAME,d.DNAME
+    -> from employee e
+    -> join
+    -> department d on e.DEPTNO=D.DEPTNO
+    -> where e.Ename like'%A%';
++-------+-------+
+| ENAME | DNAME |
++-------+-------+
+| Ward  | SALES |
+| Marti | SALES |
+| Blake | SALES |
+| Clark | HRD   |
++-------+-------+
+4 rows in set (0.01 sec)
+insert into employee
+    -> values
+    -> (7499,'Allen','Salesman',7698,'1989/02/20',1600,300,30);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7788,'Wong','Analyst',7566,'1987/04/19',3000,null,20),
+    -> (7839,'King','President',null,'1989/11/17',5000,null,10);
+ERROR 1062 (23000): Duplicate entry '7788' for key 'employee.PRIMARY'
+mysql> insert into employee
+    -> values
+    -> (7839,'King','President',null,'1989/11/17',5000,null,10);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql>  insert into employee
+    -> values
+    -> (7876,'Adam','Clerk',7788,'1987/05/23',1100,null,20);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> insert into employee
+    -> values
+    -> (7900,'James','Clerk',7689,'1989/12/03',0950,null,30),
+    -> (7902,'Ford','Analyst',7566,'1989/12/03',3000,null,20);
+Query OK, 2 rows affected, 2 warnings (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 2
+
+mysql>  insert into employee
+    -> values
+    -> (7934,'Mile','Clerk',7782,'1986/01/23',1300,null,10);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select*from employee;
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King  | President | NULL | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+-------+-----------+------+------------+------+------+--------+
+13 rows in set (0.00 sec)
+
+----------------------------------------------------------------------------------Assignment-06-------------------------------------------------------------------------------------------
+ select e.ENAME,e.JOB,e.DEPTNO,d.DNAME from employee e join department d on e.DEPTNO=d.DEPTNO where d.LOC='DALLAS';
++-------+---------+--------+----------+
+| ENAME | JOB     | DEPTNO | DNAME    |
++-------+---------+--------+----------+
+| Smith | Clerk   |     20 | RESEARCH |
+| Jones | Manager |     20 | RESEARCH |
+| Wong  | Analyst |     20 | RESEARCH |
+| Adam  | Clerk   |     20 | RESEARCH |
+| Ford  | Analyst |     20 | RESEARCH |
++-------+---------+--------+----------+
+5 rows in set (0.00 sec)
+
+mysql> desc employee;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| EMPNO    | int         | NO   | PRI | NULL    |       |
+| ENAME    | varchar(10) | YES  |     | NULL    |       |
+| JOB      | varchar(9)  | YES  |     | NULL    |       |
+| MGR      | int         | YES  |     | NULL    |       |
+| HIREDATE | date        | YES  |     | NULL    |       |
+| SAL      | int         | YES  |     | NULL    |       |
+| COMM     | int         | YES  |     | NULL    |       |
+| DEPTNO   | int         | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> desc department;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| DEPTNO | int         | NO   | PRI | NULL    |       |
+| DNAME  | varchar(14) | NO   |     | NULL    |       |
+| LOC    | varchar(13) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> select e.ENAME,e.EMPNO,m.ENAME as manager_name,e.MGR as manager_no from employee e where e.MGR=e.EMPNO;
+ERROR 1054 (42S22): Unknown column 'm.ENAME' in 'field list'
+mysql> select e.ENAME,e.EMPNO,e.ENAME as manager_name,e.MGR as manager_no from employee e where e.MGR=e.EMPNO;
+Empty set (0.00 sec)
+
+mysql> select e.EMPNO,e.ENAME,e1.EMPNO as manager no,e1.ENAME as manager name from employee e join employee e1 on e.MGR=e1.EMPNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'no,e1.ENAME as manager name from employee e join employee e1 on e.MGR=e1.EMPNO' at line 1
+mysql> select e.ENAME,e.EMPNO,m.ENAME as manager name,e.MGR as manager no from employee e left join employee m on e.MGR=m.EMPNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'name,e.MGR as manager no from employee e left join employee m on e.MGR=m.EMPNO' at line 1
+mysql> SELECT e.ENAME, e.ENO, m.ENAME AS MANAGER_NAME, e.MGR AS MANAGER_NO
+    -> FROM EMPLOYEE e
+    -> LEFT JOIN EMPLOYEE m ON e.MGR = m.ENO;
+ERROR 1054 (42S22): Unknown column 'e.ENO' in 'field list'
+mysql> SELECT e.ENAME, e.EMPNO, m.ENAME AS MANAGER_NAME, e.MGR AS MANAGER_NO
+    -> FROM EMPLOYEE e
+    -> LEFT JOIN EMPLOYEE m ON e.MGR = m.EMPNO;
++-------+-------+--------------+------------+
+| ENAME | EMPNO | MANAGER_NAME | MANAGER_NO |
++-------+-------+--------------+------------+
+| Smith |  7369 | NULL         |       7920 |
+| Allen |  7499 | Blake        |       7698 |
+| Ward  |  7521 | Blake        |       7698 |
+| Jones |  7566 | King         |       7839 |
+| Marti |  7654 | Blake        |       7698 |
+| Blake |  7698 | King         |       7839 |
+| Clark |  7782 | King         |       7839 |
+| Wong  |  7788 | Jones        |       7566 |
+| King  |  7839 | NULL         |       NULL |
+| Adam  |  7876 | Wong         |       7788 |
+| James |  7900 | NULL         |       7689 |
+| Ford  |  7902 | Jones        |       7566 |
+| Mile  |  7934 | Clark        |       7782 |
++-------+-------+--------------+------------+
+13 rows in set (0.00 sec)
+
+mysql> update table employee set MGR =7902 where ENAME='Smith';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table employee set MGR =7902 where ENAME='Smith'' at line 1
+mysql> update employee set MGR='Jones' where ENAME='King';
+ERROR 1366 (HY000): Incorrect integer value: 'Jones' for column 'MGR' at row 9
+mysql> update employee set MGR=7788 where ENAME='King';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select*from employee;
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+-------+-----------+------+------------+------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select ENAME from employee department d department d1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'd department d1' at line 1
+mysql> select ENAME from employee join department d on employee.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO;
++-------+
+| ENAME |
++-------+
+| Smith |
+| Smith |
+| Smith |
+| Smith |
+| Allen |
+| Allen |
+| Allen |
+| Allen |
+| Ward  |
+| Ward  |
+| Ward  |
+| Ward  |
+| Jones |
+| Jones |
+| Jones |
+| Jones |
+| Marti |
+| Marti |
+| Marti |
+| Marti |
+| Blake |
+| Blake |
+| Blake |
+| Blake |
+| Clark |
+| Clark |
+| Clark |
+| Clark |
+| Wong  |
+| Wong  |
+| Wong  |
+| Wong  |
+| King  |
+| King  |
+| King  |
+| King  |
+| Adam  |
+| Adam  |
+| Adam  |
+| Adam  |
+| James |
+| James |
+| James |
+| James |
+| Ford  |
+| Ford  |
+| Ford  |
+| Ford  |
+| Mile  |
+| Mile  |
+| Mile  |
+| Mile  |
++-------+
+52 rows in set (0.01 sec)
+
+mysql> select ENAME from employee join department d on employee.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO where d.DEPTNO=d1.DEPTNO;
++-------+
+| ENAME |
++-------+
+| Smith |
+| Smith |
+| Smith |
+| Smith |
+| Allen |
+| Allen |
+| Allen |
+| Allen |
+| Ward  |
+| Ward  |
+| Ward  |
+| Ward  |
+| Jones |
+| Jones |
+| Jones |
+| Jones |
+| Marti |
+| Marti |
+| Marti |
+| Marti |
+| Blake |
+| Blake |
+| Blake |
+| Blake |
+| Clark |
+| Clark |
+| Clark |
+| Clark |
+| Wong  |
+| Wong  |
+| Wong  |
+| Wong  |
+| King  |
+| King  |
+| King  |
+| King  |
+| Adam  |
+| Adam  |
+| Adam  |
+| Adam  |
+| James |
+| James |
+| James |
+| James |
+| Ford  |
+| Ford  |
+| Ford  |
+| Ford  |
+| Mile  |
+| Mile  |
+| Mile  |
+| Mile  |
++-------+
+52 rows in set (0.00 sec)
+
+mysql> select ENAME from employee join department d on employee.DEPTNO d.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO where d.DEPTNO=d1.DEPTNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'd.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO where d.DEPTNO=d1.DEPTNO' at line 1
+mysql> select ENAME from employee join department d on employee.DEPTNO=d.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO where d.DEPTNO=d1.DEPTNO;
++-------+
+| ENAME |
++-------+
+| Clark |
+| King  |
+| Mile  |
+| Smith |
+| Jones |
+| Wong  |
+| Adam  |
+| Ford  |
+| Allen |
+| Ward  |
+| Marti |
+| Blake |
+| James |
++-------+
+13 rows in set (0.00 sec)
+
+mysql> select ENAME from employee join department d on employee.DEPTNO=d.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO where d.DNAME='Sales';
++-------+
+| ENAME |
++-------+
+| Allen |
+| Ward  |
+| Marti |
+| Blake |
+| James |
++-------+
+5 rows in set (0.00 sec)
+
+mysql> select ENAME from employee join department d on employee.DEPTNO=d.DEPTNO join department d1 on d.DEPTNO=d1.DEPTNO where d.DNAME='Research';
++-------+
+| ENAME |
++-------+
+| Smith |
+| Jones |
+| Wong  |
+| Adam  |
+| Ford  |
++-------+
+5 rows in set (0.00 sec)
+
+mysql> select ENAME,JOB,DNAME,SAL,d.DEPNO from employee join department d on employee.DEPTNO=d.DEPTNO;
+ERROR 1054 (42S22): Unknown column 'd.DEPNO' in 'field list'
+mysql> select ENAME,JOB,DNAME,SAL,d.DEPTNO from employee join department d on employee.DEPTNO=d.DEPTNO;
++-------+-----------+----------+------+--------+
+| ENAME | JOB       | DNAME    | SAL  | DEPTNO |
++-------+-----------+----------+------+--------+
+| Clark | Manager   | HRD      | 2450 |     10 |
+| King  | President | HRD      | 5000 |     10 |
+| Mile  | Clerk     | HRD      | 1300 |     10 |
+| Smith | Clerk     | RESEARCH | 1000 |     20 |
+| Jones | Manager   | RESEARCH | 2975 |     20 |
+| Wong  | Analyst   | RESEARCH | 3000 |     20 |
+| Adam  | Clerk     | RESEARCH | 1100 |     20 |
+| Ford  | Analyst   | RESEARCH | 3000 |     20 |
+| Allen | Salesman  | SALES    | 1600 |     30 |
+| Ward  | Salesman  | SALES    | 1250 |     30 |
+| Marti | Salesman  | SALES    | 1250 |     30 |
+| Blake | Manager   | SALES    | 2850 |     30 |
+| James | Clerk     | SALES    |  950 |     30 |
++-------+-----------+----------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select ENAME,HIREDATE from employee where HIREDATE>'1989/05/01';
++-------+------------+
+| ENAME | HIREDATE   |
++-------+------------+
+| Marti | 1989-09-28 |
+| Clark | 1989-06-09 |
+| King  | 1989-11-17 |
+| James | 1989-12-03 |
+| Ford  | 1989-12-03 |
++-------+------------+
+5 rows in set, 1 warning (0.01 sec)
+
+mysql> SELECT e.ENAME, e.EMPNO, m.ENAME AS MANAGER_NAME, e.MGR AS MANAGER_NO
+    ->     -> FROM EMPLOYEE e
+    ->     -> LEFT JOIN EMPLOYEE m ON e.MGR = m.EMPNO;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> FROM EMPLOYEE e
+    -> LEFT JOIN EMPLOYEE m ON e.MGR = m.EMPNO' at line 2
+mysql> SELECT e.ENAME, e.EMPNO, m.ENAME AS MANAGER_NAME, e.MGR AS MANAGER_NO
+    ->     -> FROM EMPLOYEE e
+    ->     -> LEFT JOIN EMPLOYEE m ON e.MGR = m.E;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '-> FROM EMPLOYEE e
+    -> LEFT JOIN EMPLOYEE m ON e.MGR = m.E' at line 2
+mysql> select ENAME,HIREDATE
+    -> from employee e
+    -> join employee;
+ERROR 1052 (23000): Column 'ENAME' in field list is ambiguous
+mysql> select distinct sal
+    -> from employee e1
+    -> where 2=(select count(distinct SAL)from employee e2 where e1.SAL=e2.SAL);
+Empty set (0.02 sec)
+
+mysql> where 2=(select count(distinct SAL)from employee e2 where e1.SAL<=e2.SAL);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where 2=(select count(distinct SAL)from employee e2 where e1.SAL<=e2.SAL)' at line 1
+mysql> select distinct SAL
+    -> from employee e1
+    -> where 2=(select count(distinct sal)from employee e2 where e1.SAL<=e2.SAL);
++------+
+| SAL  |
++------+
+| 3000 |
++------+
+1 row in set (0.01 sec)
+
+mysql> select distinct SAL
+    -> from employee e1
+    -> where 5=(select count(distinct SAL)from employee e2 where e1.SAL<=e2.SAL);
++------+
+| SAL  |
++------+
+| 2450 |
++------+
+
+---------------------------------------------------------------------------Assignment-07------------------------------------------------------------------------------------------------
+ select ENAME
+    -> from employee
+    -> where job in('analyst','salesman');
++-------+
+| ENAME |
++-------+
+| Allen |
+| Ward  |
+| Marti |
+| Wong  |
+| Ford  |
++-------+
+5 rows in set (0.00 sec)
+
+mysql> select*from employee
+    -> where HIREDATE<'1981/09/30';
+Empty set, 1 warning (0.00 sec)
+
+mysql> select * from employee
+    -> where job <>'manager';
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+-------+-----------+------+------------+------+------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select ename from employee where EMPNO in(7369,7521,7839,7934,7788);
++-------+
+| ename |
++-------+
+| Smith |
+| Ward  |
+| Wong  |
+| King  |
+| Mile  |
++-------+
+5 rows in set (0.01 sec)
+
+mysql> select*from employee
+    -> where DEPTNO not in(30,40,10);
++-------+-------+---------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+---------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk   | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7566 | Jones | Manager | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7788 | Wong  | Analyst | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7876 | Adam  | Clerk   | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7902 | Ford  | Analyst | 7566 | 1989-12-03 | 3000 | NULL |     20 |
++-------+-------+---------+------+------------+------+------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select ENAME from employee where HIREDATE between '1981/06/30' and '1981/12/31';
+Empty set, 26 warnings (0.00 sec)
+
+mysql> select distinct job from employee;
++-----------+
+| job       |
++-----------+
+| Clerk     |
+| Salesman  |
+| Manager   |
+| Analyst   |
+| President |
++-----------+
+5 rows in set (0.00 sec)
+
+mysql> select ENAME from employee COMM is null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'is null' at line 1
+mysql> select ENAME from employee  where COMM is null;
++-------+
+| ENAME |
++-------+
+| Smith |
+| Jones |
+| Blake |
+| Clark |
+| Wong  |
+| King  |
+| Adam  |
+| James |
+| Ford  |
+| Mile  |
++-------+
+10 rows in set (0.00 sec)
+
+mysql> select ENAME,JOB from employee  where MGR is null;
+Empty set (0.00 sec)
+
+mysql> select*from employee where DEPTNO is null;
+Empty set (0.00 sec)
+
+mysql> select*from employee where COMM is not null;
++-------+-------+----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+----------+------+------------+------+------+--------+
+|  7499 | Allen | Salesman | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward  | Salesman | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7654 | Marti | Salesman | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
++-------+-------+----------+------+------------+------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select*from employee where ENAME like's%'or ENAME like'%s';
++-------+-------+---------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+---------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk   | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7566 | Jones | Manager | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7900 | James | Clerk   | 7689 | 1989-12-03 |  950 | NULL |     30 |
++-------+-------+---------+------+------------+------+------+--------+
+3 rows in set (0.01 sec)
+
+mysql> select ENAME from employee where ENAME like '_i%';
++-------+
+| ENAME |
++-------+
+| King  |
+| Mile  |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select count(*)from employee;
++----------+
+| count(*) |
++----------+
+|       13 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> select count(distinct JOB) from employee;
++---------------------+
+| count(distinct JOB) |
++---------------------+
+|                   5 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(sal) from employee;
++----------+
+| sum(sal) |
++----------+
+|    27725 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select max(SAL) as max_salary,min(SAL) as min_salary,avg(SAL) as avg_salary from employee;
++------------+------------+------------+
+| max_salary | min_salary | avg_salary |
++------------+------------+------------+
+|       5000 |        950 |  2132.6923 |
++------------+------------+------------+
+1 row in set (0.01 sec)
+
+mysql> select max(sal) from employee where job='salesman';
++----------+
+| max(sal) |
++----------+
+|     1600 |
++----------+
+1 row in set (0.00 sec)
+
+----------------------------------------------------Assignment-08------------------------------------------------------------------------------------------------------------------------
+select count(EMPNO) as employee_no,avg(SAL) as avg_salary from employee where DEPTNO=20;
++-------------+------------+
+| employee_no | avg_salary |
++-------------+------------+
+|           5 |  2215.0000 |
++-------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select ENAME,SAL,SAL*0.1 as pf from employee;
++-------+------+-------+
+| ENAME | SAL  | pf    |
++-------+------+-------+
+| Smith | 1000 | 100.0 |
+| Allen | 1600 | 160.0 |
+| Ward  | 1250 | 125.0 |
+| Jones | 2975 | 297.5 |
+| Marti | 1250 | 125.0 |
+| Blake | 2850 | 285.0 |
+| Clark | 2450 | 245.0 |
+| Wong  | 3000 | 300.0 |
+| King  | 5000 | 500.0 |
+| Adam  | 1100 | 110.0 |
+| James |  950 |  95.0 |
+| Ford  | 3000 | 300.0 |
+| Mile  | 1300 | 130.0 |
++-------+------+-------+
+13 rows in set (0.00 sec)
+
+mysql> select *from employee where HIREDATE<DATEADD(year,-2,getdate());
+ERROR 1305 (42000): FUNCTION db.DATEADD does not exist
+mysql> select *from employee where HIREDATE<dateadd(year,-2,getdate());
+ERROR 1305 (42000): FUNCTION db.dateadd does not exist
+mysql> select *from employee where HIREDATE<date(year,-2,getdate());
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',-2,getdate())' at line 1
+mysql> select min HIREDATE from employee;
+ERROR 1054 (42S22): Unknown column 'min' in 'field list'
+mysql> select min(HIREDATE)from employee;
++---------------+
+| min(HIREDATE) |
++---------------+
+| 1986-01-23    |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select (e.ENAME from employee e where HIREDATE<=(select min(HIREDATE)from employee);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from employee e where HIREDATE<=(select min(HIREDATE)from employee)' at line 1
+mysql> select (e.ENAME from employee e where HIREDATE<=(select min(HIREDATE)from employee);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from employee e where HIREDATE<=(select min(HIREDATE)from employee)' at line 1
+mysql> select * from employee order by SAL asc;
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7566 | Jones | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 |
++-------+-------+-----------+------+------------+------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select ENAME,HIREDATE order by HIREDATE desc;
+ERROR 1054 (42S22): Unknown column 'ENAME' in 'field list'
+mysql> select ENAME,HIREDATE from employee order by HIREDATE desc;
++-------+------------+
+| ENAME | HIREDATE   |
++-------+------------+
+| James | 1989-12-03 |
+| Ford  | 1989-12-03 |
+| King  | 1989-11-17 |
+| Marti | 1989-09-28 |
+| Clark | 1989-06-09 |
+| Blake | 1989-05-01 |
+| Jones | 1989-03-02 |
+| Ward  | 1989-02-22 |
+| Allen | 1989-02-20 |
+| Smith | 1988-12-17 |
+| Adam  | 1987-05-23 |
+| Wong  | 1987-04-19 |
+| Mile  | 1986-01-23 |
++-------+------------+
+13 rows in set (0.00 sec)
+
+mysql> select ENAME,SAL,SAL*0.1 as pf,SAL*0.5 as HRA, sal*0.3 as DA,SAL+(SAL*0.1)+(SAL*0.5)+(SAL*0.3) as Gross from employee order by Gross asc;
++-------+------+-------+--------+--------+--------+
+| ENAME | SAL  | pf    | HRA    | DA     | Gross  |
++-------+------+-------+--------+--------+--------+
+| James |  950 |  95.0 |  475.0 |  285.0 | 1805.0 |
+| Smith | 1000 | 100.0 |  500.0 |  300.0 | 1900.0 |
+| Adam  | 1100 | 110.0 |  550.0 |  330.0 | 2090.0 |
+| Ward  | 1250 | 125.0 |  625.0 |  375.0 | 2375.0 |
+| Marti | 1250 | 125.0 |  625.0 |  375.0 | 2375.0 |
+| Mile  | 1300 | 130.0 |  650.0 |  390.0 | 2470.0 |
+| Allen | 1600 | 160.0 |  800.0 |  480.0 | 3040.0 |
+| Clark | 2450 | 245.0 | 1225.0 |  735.0 | 4655.0 |
+| Blake | 2850 | 285.0 | 1425.0 |  855.0 | 5415.0 |
+| Jones | 2975 | 297.5 | 1487.5 |  892.5 | 5652.5 |
+| Wong  | 3000 | 300.0 | 1500.0 |  900.0 | 5700.0 |
+| Ford  | 3000 | 300.0 | 1500.0 |  900.0 | 5700.0 |
+| King  | 5000 | 500.0 | 2500.0 | 1500.0 | 9500.0 |
++-------+------+-------+--------+--------+--------+
+13 rows in set (0.01 sec)
+
+mysql> select DEPTNO,count(ENO) as emp_no from employee order by DEPTNO;
+ERROR 1054 (42S22): Unknown column 'ENO' in 'field list'
+mysql> select DEPTNO,count(EMPNO) as emp_no from employee order by DEPTNO;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'db.employee.DEPTNO'; this is incompatible with sql_mode=only_full_group_by
+mysql> select DEPTNO,count(EMPNO)  from employee order by DEPTNO;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'db.employee.DEPTNO'; this is incompatible with sql_mode=only_full_group_by
+mysql> select DEPTNO,count(EMPNO) as emp_no from employee group by DEPTNO;
++--------+--------+
+| DEPTNO | emp_no |
++--------+--------+
+|     10 |      3 |
+|     20 |      5 |
+|     30 |      5 |
++--------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select DEPTNO,sum(SAL)as total_salary from employee group by DEPTNO;
++--------+--------------+
+| DEPTNO | total_salary |
++--------+--------------+
+|     10 |         8750 |
+|     20 |        11075 |
+|     30 |         7900 |
++--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select JOB,count(EMPNO) as emp_no from employee group by JOB order by emp_no desc;
++-----------+--------+
+| JOB       | emp_no |
++-----------+--------+
+| Clerk     |      4 |
+| Salesman  |      3 |
+| Manager   |      3 |
+| Analyst   |      2 |
+| President |      1 |
++-----------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select job,sum(SAL) as total_salary,max(SAL) as max_sal,min(SAL) as min_sal,avg(SAL) as avg_sal from employee group ny JOB;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ny JOB' at line 1
+mysql> select JOB,sum(SAL) as total_salary,max(SAL) as max_sal,min(SAL) as min_sal,avg(SAL) as avg_sal from employee group ny JOB;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ny JOB' at line 1
+mysql> select JOB,sum(SAL) as total_salary,max(SAL) as max_sal,min(SAL) as min_sal,avg(SAL) as avg_sal from employee group by JOB;
++-----------+--------------+---------+---------+-----------+
+| JOB       | total_salary | max_sal | min_sal | avg_sal   |
++-----------+--------------+---------+---------+-----------+
+| Clerk     |         4350 |    1300 |     950 | 1087.5000 |
+| Salesman  |         4100 |    1600 |    1250 | 1366.6667 |
+| Manager   |         8275 |    2975 |    2450 | 2758.3333 |
+| Analyst   |         6000 |    3000 |    3000 | 3000.0000 |
+| President |         5000 |    5000 |    5000 | 5000.0000 |
++-----------+--------------+---------+---------+-----------+
+5 rows in set (0.01 sec)
+
+mysql> select sum(SAL) as total_salary ,max(SAL) as max_salary,min(SAL) as min_salary,avg(SAL) as avg_sal from employee group by JOB;
++--------------+------------+------------+-----------+
+| total_salary | max_salary | min_salary | avg_sal   |
++--------------+------------+------------+-----------+
+|         4350 |       1300 |        950 | 1087.5000 |
+|         4100 |       1600 |       1250 | 1366.6667 |
+|         8275 |       2975 |       2450 | 2758.3333 |
+|         6000 |       3000 |       3000 | 3000.0000 |
+|         5000 |       5000 |       5000 | 5000.0000 |
++--------------+------------+------------+-----------+
+5 rows in set (0.01 sec)
+
+mysql> select sum(SAL) as total_salary ,max(SAL) as max_salary,min(SAL) as min_salary,avg(SAL) as avg_sal from employee where DEPTNO=20 group by JOB having
+avg(SAL)>1000;
++--------------+------------+------------+-----------+
+| total_salary | max_salary | min_salary | avg_sal   |
++--------------+------------+------------+-----------+
+|         2100 |       1100 |       1000 | 1050.0000 |
+|         2975 |       2975 |       2975 | 2975.0000 |
+|         6000 |       3000 |       3000 | 3000.0000 |
++--------------+------------+------------+-----------+
+3 rows in set (0.00 sec)
+
+---------------------------------------------------------------------------------Assignment-09---------------------------------------------------------------------------------------------
+ select*from employee where COMM is null;
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7566 | Jones | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+-------+-----------+------+------------+------+------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select ENAME,(SAL+COMM)as Total_Salary  from employee;
++-------+--------------+
+| ENAME | Total_Salary |
++-------+--------------+
+| Smith |         NULL |
+| Allen |         1900 |
+| Ward  |         1750 |
+| Jones |         NULL |
+| Marti |         2650 |
+| Blake |         NULL |
+| Clark |         NULL |
+| Wong  |         NULL |
+| King  |         NULL |
+| Adam  |         NULL |
+| James |         NULL |
+| Ford  |         NULL |
+| Mile  |         NULL |
++-------+--------------+
+13 rows in set (0.00 sec)
+
+mysql> select ENAME,SAL*1.20 as Increased_Salary from employee where job='manager';
++-------+------------------+
+| ENAME | Increased_Salary |
++-------+------------------+
+| Jones |          3570.00 |
+| Blake |          3420.00 |
+| Clark |          2940.00 |
++-------+------------------+
+3 rows in set (0.00 sec)
+
+select*from employee;
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+-------+-----------+------+------------+------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select*from department;
++--------+-----------+---------+
+| DEPTNO | DNAME     | LOC     |
++--------+-----------+---------+
+|     10 | HRD       | Houston |
+|     20 | RESEARCH  | Dallas  |
+|     30 | SALES     | Chicago |
+|     40 | OPERATION | Boston  |
++--------+-----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select concat('Todays date is ',date_format(curdate(),'%d %m,%y'))as formatted_date;
++-------------------------+
+| formatted_date          |
++-------------------------+
+| Todays date is 03 04,24 |
++-------------------------+
+1 row in set (0.01 sec)
+
+mysql> select concat('Todays date is ',date_format(curdate(),'%d, %m,%y'))as formatted_date;
++--------------------------+
+| formatted_date           |
++--------------------------+
+| Todays date is 03, 04,24 |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> select min(SAL) as min_salary,max(SAL) as max_salary from employee;
++------------+------------+
+| min_salary | max_salary |
++------------+------------+
+|        950 |       5000 |
++------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select*,d.DNAME from employee e inner join department d on e.DEPTNO=d.DEPTNO group by d.DNAME order by d.DNAME asc;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'db.e.EMPNO' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select e.*,d.DNAME from employee e inner join department d on e.DEPTNO=d.DEPTNO order by e.HIREDATE asc;
++-------+-------+-----------+------+------------+------+------+--------+----------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | DNAME    |
++-------+-------+-----------+------+------------+------+------+--------+----------+
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 | HRD      |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 | RESEARCH |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 | RESEARCH |
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 | RESEARCH |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 | SALES    |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 | SALES    |
+|  7566 | Jones | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 | RESEARCH |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 | SALES    |
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 | HRD      |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 | SALES    |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 | HRD      |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 | SALES    |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 | RESEARCH |
++-------+-------+-----------+------+------------+------+------+--------+----------+
+13 rows in set (0.01 sec)
+
+mysql> select d.DNAME,min(e.SAL) as min_sal,max(e.SAL) as max_sal,avg(e.SAL) as average_salary
+    -> from employee e
+    -> inner join department d on e.DEPTNO=d.DEPTNO
+    -> group by d.DNAME
+    -> order by d.DNAME asc;
++----------+---------+---------+----------------+
+| DNAME    | min_sal | max_sal | average_salary |
++----------+---------+---------+----------------+
+| HRD      |    1300 |    5000 |      2916.6667 |
+| RESEARCH |    1000 |    3000 |      2215.0000 |
+| SALES    |     950 |    2850 |      1580.0000 |
++----------+---------+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select DNAME,count(*) as num_employee
+    -> from employee e
+    -> inner join department d on e.DEPTNO=d.DEPTNO
+    -> group by DNAME
+    -> having count(*)>=4;
++----------+--------------+
+| DNAME    | num_employee |
++----------+--------------+
+| RESEARCH |            5 |
+| SALES    |            5 |
++----------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select ENAME from employee where SAL>(select avg(SAL)from employee where length(ENAME)=5);
++-------+
+| ENAME |
++-------+
+| Jones |
+| Blake |
+| Clark |
+| Wong  |
+| King  |
+| Ford  |
++-------+
+6 rows in set (0.00 sec)
+
+mysql> select e.*,d.DNAME from employee e inner join department d on e.DEPTNO=d.DEPTNO where d.DNAME in ('Sales','hrd');
++-------+-------+-----------+------+------------+------+------+--------+-------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | DNAME |
++-------+-------+-----------+------+------------+------+------+--------+-------+
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 | HRD   |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 | HRD   |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 | HRD   |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 | SALES |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 | SALES |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 | SALES |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 | SALES |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 | SALES |
++-------+-------+-----------+------+------------+------+------+--------+-------+
+8 rows in set (0.01 sec)
+
+mysql> select LOC from department in(select DEPTNO from employee where ENAME='wong');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'in(select DEPTNO from employee where ENAME='wong')' at line 1
+mysql> select LOC from department  where DEPTNO in(select DEPTNO from employee where ENAME='wong');
++--------+
+| LOC    |
++--------+
+| Dallas |
++--------+
+1 row in set (0.01 sec)
+
+mysql> delete from department where dname='research';
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`db`.`employee`, CONSTRAINT `FK_EMPLOYEE_DEPARTMENT` FOREIGN KEY (`DEPTNO`) REFERENCES `department` (`DEPTNO`))
+mysql> select*from employee order by SAL desc limit 3;
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
++-------+-------+-----------+------+------------+------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select e.ENAME as emp_name,m.ENAME as manager_name from employee e left join emeployee m on e.MGR=m.EMPNO;
+ERROR 1146 (42S02): Table 'db.emeployee' doesn't exist
+mysql> select e.ENAME as emp_name,m.ENAME as manager_name from employee e left join employee m on e.MGR=m.EMPNO;
++----------+--------------+
+| emp_name | manager_name |
++----------+--------------+
+| Smith    | NULL         |
+| Allen    | Blake        |
+| Ward     | Blake        |
+| Jones    | King         |
+| Marti    | Blake        |
+| Blake    | King         |
+| Clark    | King         |
+| Wong     | Jones        |
+| King     | Wong         |
+| Adam     | Wong         |
+| James    | NULL         |
+| Ford     | Jones        |
+| Mile     | Clark        |
++----------+--------------+
+13 rows in set (0.00 sec)
+

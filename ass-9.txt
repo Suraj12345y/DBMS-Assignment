@@ -1,0 +1,223 @@
+ select*from employee where COMM is null;
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7566 | Jones | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+-------+-----------+------+------------+------+------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select ENAME,(SAL+COMM)as Total_Salary  from employee;
++-------+--------------+
+| ENAME | Total_Salary |
++-------+--------------+
+| Smith |         NULL |
+| Allen |         1900 |
+| Ward  |         1750 |
+| Jones |         NULL |
+| Marti |         2650 |
+| Blake |         NULL |
+| Clark |         NULL |
+| Wong  |         NULL |
+| King  |         NULL |
+| Adam  |         NULL |
+| James |         NULL |
+| Ford  |         NULL |
+| Mile  |         NULL |
++-------+--------------+
+13 rows in set (0.00 sec)
+
+mysql> select ENAME,SAL*1.20 as Increased_Salary from employee where job='manager';
++-------+------------------+
+| ENAME | Increased_Salary |
++-------+------------------+
+| Jones |          3570.00 |
+| Blake |          3420.00 |
+| Clark |          2940.00 |
++-------+------------------+
+3 rows in set (0.00 sec)
+
+select*from employee;
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7566 | Jones | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 |
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+-------+-----------+------+------------+------+------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select*from department;
++--------+-----------+---------+
+| DEPTNO | DNAME     | LOC     |
++--------+-----------+---------+
+|     10 | HRD       | Houston |
+|     20 | RESEARCH  | Dallas  |
+|     30 | SALES     | Chicago |
+|     40 | OPERATION | Boston  |
++--------+-----------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select concat('Todays date is ',date_format(curdate(),'%d %m,%y'))as formatted_date;
++-------------------------+
+| formatted_date          |
++-------------------------+
+| Todays date is 03 04,24 |
++-------------------------+
+1 row in set (0.01 sec)
+
+mysql> select concat('Todays date is ',date_format(curdate(),'%d, %m,%y'))as formatted_date;
++--------------------------+
+| formatted_date           |
++--------------------------+
+| Todays date is 03, 04,24 |
++--------------------------+
+1 row in set (0.00 sec)
+
+mysql> select min(SAL) as min_salary,max(SAL) as max_salary from employee;
++------------+------------+
+| min_salary | max_salary |
++------------+------------+
+|        950 |       5000 |
++------------+------------+
+1 row in set (0.00 sec)
+
+mysql> select*,d.DNAME from employee e inner join department d on e.DEPTNO=d.DEPTNO group by d.DNAME order by d.DNAME asc;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'db.e.EMPNO' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select e.*,d.DNAME from employee e inner join department d on e.DEPTNO=d.DEPTNO order by e.HIREDATE asc;
++-------+-------+-----------+------+------------+------+------+--------+----------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | DNAME    |
++-------+-------+-----------+------+------------+------+------+--------+----------+
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 | HRD      |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 | RESEARCH |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 | RESEARCH |
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 | RESEARCH |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 | SALES    |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 | SALES    |
+|  7566 | Jones | Manager   | 7839 | 1989-03-02 | 2975 | NULL |     20 | RESEARCH |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 | SALES    |
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 | HRD      |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 | SALES    |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 | HRD      |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 | SALES    |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 | RESEARCH |
++-------+-------+-----------+------+------------+------+------+--------+----------+
+13 rows in set (0.01 sec)
+
+mysql> select d.DNAME,min(e.SAL) as min_sal,max(e.SAL) as max_sal,avg(e.SAL) as average_salary
+    -> from employee e
+    -> inner join department d on e.DEPTNO=d.DEPTNO
+    -> group by d.DNAME
+    -> order by d.DNAME asc;
++----------+---------+---------+----------------+
+| DNAME    | min_sal | max_sal | average_salary |
++----------+---------+---------+----------------+
+| HRD      |    1300 |    5000 |      2916.6667 |
+| RESEARCH |    1000 |    3000 |      2215.0000 |
+| SALES    |     950 |    2850 |      1580.0000 |
++----------+---------+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select DNAME,count(*) as num_employee
+    -> from employee e
+    -> inner join department d on e.DEPTNO=d.DEPTNO
+    -> group by DNAME
+    -> having count(*)>=4;
++----------+--------------+
+| DNAME    | num_employee |
++----------+--------------+
+| RESEARCH |            5 |
+| SALES    |            5 |
++----------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> select ENAME from employee where SAL>(select avg(SAL)from employee where length(ENAME)=5);
++-------+
+| ENAME |
++-------+
+| Jones |
+| Blake |
+| Clark |
+| Wong  |
+| King  |
+| Ford  |
++-------+
+6 rows in set (0.00 sec)
+
+mysql> select e.*,d.DNAME from employee e inner join department d on e.DEPTNO=d.DEPTNO where d.DNAME in ('Sales','hrd');
++-------+-------+-----------+------+------------+------+------+--------+-------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | DNAME |
++-------+-------+-----------+------+------------+------+------+--------+-------+
+|  7782 | Clark | Manager   | 7839 | 1989-06-09 | 2450 | NULL |     10 | HRD   |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 | HRD   |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 | HRD   |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 | SALES |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 | SALES |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 | SALES |
+|  7698 | Blake | Manager   | 7839 | 1989-05-01 | 2850 | NULL |     30 | SALES |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 | SALES |
++-------+-------+-----------+------+------------+------+------+--------+-------+
+8 rows in set (0.01 sec)
+
+mysql> select LOC from department in(select DEPTNO from employee where ENAME='wong');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'in(select DEPTNO from employee where ENAME='wong')' at line 1
+mysql> select LOC from department  where DEPTNO in(select DEPTNO from employee where ENAME='wong');
++--------+
+| LOC    |
++--------+
+| Dallas |
++--------+
+1 row in set (0.01 sec)
+
+mysql> delete from department where dname='research';
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`db`.`employee`, CONSTRAINT `FK_EMPLOYEE_DEPARTMENT` FOREIGN KEY (`DEPTNO`) REFERENCES `department` (`DEPTNO`))
+mysql> select*from employee order by SAL desc limit 3;
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
++-------+-------+-----------+------+------------+------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select e.ENAME as emp_name,m.ENAME as manager_name from employee e left join emeployee m on e.MGR=m.EMPNO;
+ERROR 1146 (42S02): Table 'db.emeployee' doesn't exist
+mysql> select e.ENAME as emp_name,m.ENAME as manager_name from employee e left join employee m on e.MGR=m.EMPNO;
++----------+--------------+
+| emp_name | manager_name |
++----------+--------------+
+| Smith    | NULL         |
+| Allen    | Blake        |
+| Ward     | Blake        |
+| Jones    | King         |
+| Marti    | Blake        |
+| Blake    | King         |
+| Clark    | King         |
+| Wong     | Jones        |
+| King     | Wong         |
+| Adam     | Wong         |
+| James    | NULL         |
+| Ford     | Jones        |
+| Mile     | Clark        |
++----------+--------------+
+13 rows in set (0.00 sec)
+

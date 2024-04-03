@@ -1,0 +1,169 @@
+select ENAME
+    -> from employee
+    -> where job in('analyst','salesman');
++-------+
+| ENAME |
++-------+
+| Allen |
+| Ward  |
+| Marti |
+| Wong  |
+| Ford  |
++-------+
+5 rows in set (0.00 sec)
+
+mysql> select*from employee
+    -> where HIREDATE<'1981/09/30';
+Empty set, 1 warning (0.00 sec)
+
+mysql> select * from employee
+    -> where job <>'manager';
++-------+-------+-----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB       | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+-----------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk     | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7499 | Allen | Salesman  | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward  | Salesman  | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7654 | Marti | Salesman  | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
+|  7788 | Wong  | Analyst   | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7839 | King  | President | 7788 | 1989-11-17 | 5000 | NULL |     10 |
+|  7876 | Adam  | Clerk     | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7900 | James | Clerk     | 7689 | 1989-12-03 |  950 | NULL |     30 |
+|  7902 | Ford  | Analyst   | 7566 | 1989-12-03 | 3000 | NULL |     20 |
+|  7934 | Mile  | Clerk     | 7782 | 1986-01-23 | 1300 | NULL |     10 |
++-------+-------+-----------+------+------------+------+------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select ename from employee where EMPNO in(7369,7521,7839,7934,7788);
++-------+
+| ename |
++-------+
+| Smith |
+| Ward  |
+| Wong  |
+| King  |
+| Mile  |
++-------+
+5 rows in set (0.01 sec)
+
+mysql> select*from employee
+    -> where DEPTNO not in(30,40,10);
++-------+-------+---------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+---------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk   | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7566 | Jones | Manager | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7788 | Wong  | Analyst | 7566 | 1987-04-19 | 3000 | NULL |     20 |
+|  7876 | Adam  | Clerk   | 7788 | 1987-05-23 | 1100 | NULL |     20 |
+|  7902 | Ford  | Analyst | 7566 | 1989-12-03 | 3000 | NULL |     20 |
++-------+-------+---------+------+------------+------+------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select ENAME from employee where HIREDATE between '1981/06/30' and '1981/12/31';
+Empty set, 26 warnings (0.00 sec)
+
+mysql> select distinct job from employee;
++-----------+
+| job       |
++-----------+
+| Clerk     |
+| Salesman  |
+| Manager   |
+| Analyst   |
+| President |
++-----------+
+5 rows in set (0.00 sec)
+
+mysql> select ENAME from employee COMM is null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'is null' at line 1
+mysql> select ENAME from employee  where COMM is null;
++-------+
+| ENAME |
++-------+
+| Smith |
+| Jones |
+| Blake |
+| Clark |
+| Wong  |
+| King  |
+| Adam  |
+| James |
+| Ford  |
+| Mile  |
++-------+
+10 rows in set (0.00 sec)
+
+mysql> select ENAME,JOB from employee  where MGR is null;
+Empty set (0.00 sec)
+
+mysql> select*from employee where DEPTNO is null;
+Empty set (0.00 sec)
+
+mysql> select*from employee where COMM is not null;
++-------+-------+----------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB      | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+----------+------+------------+------+------+--------+
+|  7499 | Allen | Salesman | 7698 | 1989-02-20 | 1600 |  300 |     30 |
+|  7521 | Ward  | Salesman | 7698 | 1989-02-22 | 1250 |  500 |     30 |
+|  7654 | Marti | Salesman | 7698 | 1989-09-28 | 1250 | 1400 |     30 |
++-------+-------+----------+------+------------+------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select*from employee where ENAME like's%'or ENAME like'%s';
++-------+-------+---------+------+------------+------+------+--------+
+| EMPNO | ENAME | JOB     | MGR  | HIREDATE   | SAL  | COMM | DEPTNO |
++-------+-------+---------+------+------------+------+------+--------+
+|  7369 | Smith | Clerk   | 7920 | 1988-12-17 | 1000 | NULL |     20 |
+|  7566 | Jones | Manager | 7839 | 1989-03-02 | 2975 | NULL |     20 |
+|  7900 | James | Clerk   | 7689 | 1989-12-03 |  950 | NULL |     30 |
++-------+-------+---------+------+------------+------+------+--------+
+3 rows in set (0.01 sec)
+
+mysql> select ENAME from employee where ENAME like '_i%';
++-------+
+| ENAME |
++-------+
+| King  |
+| Mile  |
++-------+
+2 rows in set (0.00 sec)
+
+mysql> select count(*)from employee;
++----------+
+| count(*) |
++----------+
+|       13 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> select count(distinct JOB) from employee;
++---------------------+
+| count(distinct JOB) |
++---------------------+
+|                   5 |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(sal) from employee;
++----------+
+| sum(sal) |
++----------+
+|    27725 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select max(SAL) as max_salary,min(SAL) as min_salary,avg(SAL) as avg_salary from employee;
++------------+------------+------------+
+| max_salary | min_salary | avg_salary |
++------------+------------+------------+
+|       5000 |        950 |  2132.6923 |
++------------+------------+------------+
+1 row in set (0.01 sec)
+
+mysql> select max(sal) from employee where job='salesman';
++----------+
+| max(sal) |
++----------+
+|     1600 |
++----------+
+1 row in set (0.00 sec)

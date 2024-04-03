@@ -1,0 +1,166 @@
+ use db;
+Database changed
+mysql> select*from ITEM;
++------+---------+---------+-------+
+| I_no | I_name  | I_price | I_qty |
++------+---------+---------+-------+
+|    1 | Sword   |    2.25 |    50 |
+|    2 | Nut     |    5.00 |   110 |
+|    3 | Bolt    |    3.99 |    75 |
+|    4 | Hammer  |    9.99 |   125 |
+|    5 | Washer  |    1.99 |   100 |
+|    6 | Nail    |    1.00 |   300 |
+|    7 | Axe     |    3.55 |    25 |
+|    8 | Scissor |    2.19 |    15 |
++------+---------+---------+-------+
+8 rows in set (0.02 sec)
+
+mysql> update ITEM set I_qty=75 where I_no=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update ITEM set I_price=6 where I_name=Nut;
+ERROR 1054 (42S22): Unknown column 'Nut' in 'where clause'
+mysql> update ITEM set I_price=6 where I_name='Nut';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update ITEM set I_price=I_price*1.10;
+Query OK, 8 rows affected, 6 warnings (0.00 sec)
+Rows matched: 8  Changed: 8  Warnings: 6
+
+mysql> Delete from ITEM where I_qty=500;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> Delete ITEM where I_price between 0.1 and 1.00;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where I_price between 0.1 and 1.00' at line 1
+mysql> Delete  from ITEM where I_price between 0.1 and 1.00;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> alter table CUSTOMER add Phone_no varchar(10);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table CUSTOMER rename column Phone_no to Ph_number;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> Alter table CUSTOMER drop column Ph_Number;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table CUSTOMER rename to CUSTOMER_SURAJ;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> alter table ITEM rename to ITEM_SURAJ;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select constraint_name,constraint_type from user_constraints where table_name='ITEM_SURAJ';
+ERROR 1146 (42S02): Table 'db.user_constraints' doesn't exist
+mysql> desc ITEM_SURAJ;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| I_no    | int          | NO   | PRI | NULL    |       |
+| I_name  | varchar(20)  | NO   |     | NULL    |       |
+| I_price | decimal(5,2) | YES  |     | NULL    |       |
+| I_qty   | int          | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> select constraint_name,constraint_type from ITEM_SURAJ where table_name='ITEM_SURAJ';
+ERROR 1054 (42S22): Unknown column 'constraint_name' in 'field list'
+mysql> select I_no,I_name,I_price,I_qty ,constraint_type from ITEM_SURAJ where table_name='ITEM_SURAJ';
+ERROR 1054 (42S22): Unknown column 'constraint_type' in 'field list'
+mysql> select I_no,I_name,I_price,I_qty ,int ,varchar(20),decimal(5,2),int from ITEM_SURAJ where table_name='ITEM_SURAJ';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int ,varchar(20),decimal(5,2),int from ITEM_SURAJ where table_name='ITEM_SURAJ'' at line 1
+mysql> select I_no,I_name,I_price,I_qty ,int ,varchar(20),decimal(5,2),int,from ITEM_SURAJ where table_name='ITEM_SURAJ';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int ,varchar(20),decimal(5,2),int,from ITEM_SURAJ where table_name='ITEM_SURAJ'' at line 1
+mysql> select I_no I_name I_price I_qty int varchar(20) decimal(5,2) int from ITEM_SURAJ where table_name='ITEM_SURAJ';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'I_price I_qty int varchar(20) decimal(5,2) int from ITEM_SURAJ where table_name=' at line 1
+mysql> select I_no I_name I_price I_qty int varchar(20) decimal(5,2) int from ITEM_SURAJ where table_name=ITEM_SURAJ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'I_price I_qty int varchar(20) decimal(5,2) int from ITEM_SURAJ where table_name=' at line 1
+mysql> select*from CUSTOMER_SURAJ;
++---------+-----------+-------+
+| Cust_no | Cust_name | State |
++---------+-----------+-------+
+|    1001 | Prakash   | UP    |
+|    1002 | Mukesh    | AP    |
+|    1003 | Murti     | UP    |
+|    1004 | Rajan     | WB    |
++---------+-----------+-------+
+4 rows in set (0.01 sec)
+
+mysql>  alter table CUSTOMER add Phone_no varchar(10);
+ERROR 1146 (42S02): Table 'db.customer' doesn't exist
+mysql>  alter table CUSTOMER_SURAJ add Phone_no varchar(10);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql>  alter table CUSTOMER_SURAJ rename column Phone_no to Ph_number;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select*from CUSTOMER_SURAJ;
++---------+-----------+-------+-----------+
+| Cust_no | Cust_name | State | Ph_number |
++---------+-----------+-------+-----------+
+|    1001 | Prakash   | UP    | NULL      |
+|    1002 | Mukesh    | AP    | NULL      |
+|    1003 | Murti     | UP    | NULL      |
+|    1004 | Rajan     | WB    | NULL      |
++---------+-----------+-------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> desc ITEM_SURAJ;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| I_no    | int          | NO   | PRI | NULL    |       |
+| I_name  | varchar(20)  | NO   |     | NULL    |       |
+| I_price | decimal(5,2) | YES  |     | NULL    |       |
+| I_qty   | int          | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> truncate table CUSTOMER_SURAJ;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select*from CUSTOMER_SURAJ;
+Empty set (0.00 sec)
+
+mysql> create table CUSTOMER(Cust_no integer primary key unique,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(2)Default 'WB' check(S
+
+    -> jb;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'jb' at line 2
+mysql> create table CUSTOMER(Cust_no integer primary key unique,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(2)Default 'WB' check(S
+
+    -> jhh;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'jhh' at line 2
+mysql> create table CUSTOMER2(Cust_no integer primary key unique,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(2)Default 'WB' check(
+State ='WB' or 'AP' or 'UP')));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> create table CUSTOMER2(Cust_no integer primary key unique,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(20)Default 'WB' check
+(State ='WB' or 'AP' or 'UP')));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> create table CUSTOMER2(Cust_no integer primary key unique,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(20) check(State ='WB'
+ or 'AP' or 'UP')));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> create table CUSTOMER2(Cust_no integer primary key,Cust_name varchar(20) check(upper(Cust_name)=Cust_name),State varchar(20) check(State ='WB' or state='AP' or state='UP'));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc CUSTOMER2;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Cust_no   | int         | NO   | PRI | NULL    |       |
+| Cust_name | varchar(20) | YES  |     | NULL    |       |
+| State     | varchar(20) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> drop table CUSTOMER_SURAJ;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> drop table ITEM_SURAJ;
+Query OK, 0 rows affected (0.02 sec)
